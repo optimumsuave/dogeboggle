@@ -6,17 +6,14 @@ var source 				= require('vinyl-source-stream');
 var streamify   		= require('gulp-streamify');
 var browserify 			= require('browserify');
 var babelify 			= require('babelify');
-var reactify 			= require('reactify');
 var uglify 				= require('gulp-uglify');
 var gutil 				= require('gulp-util');
-var notify 				= require('gulp-notify');
-var notifier 			= require('node-notifier');
 
 var production = process.env.NODE_ENV === 'production';
 
 var watching = false;
-gulp.task('enable-watch-mode', function() { watching = true })
-gulp.task('enable-prod', 
+gulp.task('enable-watch-mode', function() { watching = true });
+gulp.task('enable-prod', function() { production = true });
 
 function handleError(task) {
 	return function(err) {
@@ -26,8 +23,8 @@ function handleError(task) {
 
 function buildScripts(watching){
 	var bundler, rebundle;
-	bundler = browserify('app/js/app.js', {
-		paths: ['./node_modules','./app/js/'], 
+	bundler = browserify('src/js/App.js', {
+		paths: ['node_modules/','src/js/'], 
 		debug: !production, 
 		cache: {},
 		packageCache: {},
@@ -47,7 +44,9 @@ function buildScripts(watching){
     	gutil.log('Rebundle...');
 		var stream = bundler.bundle();
 		stream.on('error', handleError('Browserify'));
-		stream = stream.pipe(source('bundle.js')).pipe(streamify(uglify()));
+		stream = stream.pipe(source('bundle.js'))
+
+		// .pipe(streamify(uglify()));
 		return stream.pipe(gulp.dest('./build'));
 	};
 	bundler.on('update', rebundle);
