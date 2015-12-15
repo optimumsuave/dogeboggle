@@ -57,18 +57,44 @@ h1 {
 }
 
 .game {
+	width: 100%;
 	margin-top: 20px;
-	float: left;
 	clear: both;
 	.game-row {
 		clear: both;
-		float: left;
+
 		.game-box {
-			width: 60px;
-			height: 60px;
+
+			width: 23%;
+			margin: 1%;
 			display: inline-block;
-			background: red;
-			margin: 1px;
+			background: #fff;
+			border-radius: 6px;
+			color: #444;
+			line-height: 60px;
+			text-align: center;
+			text-transform: uppercase;
+			font-size: 2em;
+
+			&:hover {
+				cursor: pointer;
+				background: #ededed;
+			}
 		}
+	}
+}
+
+.cols {
+	clear: both;
+	width: 100%;
+	.left {
+		float: left;
+		width: 40%;
+		min-width: 260px;
+	}
+
+	.right {
+		float: left;
+		width: 60%;
 	}
 }

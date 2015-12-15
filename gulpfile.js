@@ -38,7 +38,7 @@ function buildScripts(watching){
 		});
 	}
 
-	bundler.transform(babelify);
+	bundler.transform(babelify, {presets: ["es2015"]});
 
 	rebundle = function() {
     	gutil.log('Rebundle...');

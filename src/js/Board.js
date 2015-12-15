@@ -1,8 +1,9 @@
 'use strict';
 
-var $ = require('jquery');
+import $ 				from 'jquery';
 
 class Board {
+
 	constructor(name) {
 		console.log("Board Mounted");
 	}
