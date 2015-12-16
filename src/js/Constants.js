@@ -2,6 +2,25 @@
 
 var Constants = {};
 
+Constants.DOGE_MESSAGES_POSITIVE = [
+	'much vocabulary',
+	'such words',
+	'so diction',
+	'very boggle',
+	'many words',
+	'much awesome'
+]; 
+
+Constants.DOGE_MESSAGES_NEGATIVE = [
+	'wow',
+	'such fail',
+	'much spelling',
+	'so linguistic',
+	'no life',
+	'pls spell',
+	'sorry letters'
+]; 
+
 Constants.ALPHABET_CHARS = [
 	'a', 
 	'b', 

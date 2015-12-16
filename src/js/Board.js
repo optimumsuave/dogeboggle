@@ -8,7 +8,7 @@ class Board {
 		console.log("Board Mounted");
 	}
 	buildGameBoardHTML(){
-		console.log("Building game board");
+		console.log("Building game board HTML");
 		var board = $("<div class='game-board'></div>");
 		for(var i=0;i<4;i++){
 			var row = $("<div class='game-row'></div>");
