@@ -64,7 +64,7 @@ class WordPath {
 
 				console.log("adjacent", a.character, "pos", pos, "blackListedAdjacent", blackListedAdjacent);
 
-				if(this.value.length-1 == pos){
+				if(this.value.length == pos){
 					//word is done
 					//word length achieved and no previous letters used
 					if(blackListedAdjacent.length == 0){
@@ -85,10 +85,12 @@ class WordPath {
 							return blacklist;
 						} else {
 							blacklist.pop();
-							// return false;
+							if(k == adjacent.length){
+								return false;
+							}
 						}
 					} else {
-						// return this.hasCharacterAdjacent(a, pos+1, blacklist);
+						console.log("there are repeats in the same area", blackListedAdjacent);
 						// return false;
 						// var check = this.hasCharacterAdjacent(a, pos+1, blacklist);
 						// if(check){
@@ -119,7 +121,7 @@ class WordPath {
 				var point = startingPoints[i];
 				var path = this.hasCharacterAdjacent(point, 1, [{x: point.x, y: point.y}]);
 				console.log("validate path", i, path);
-				if(path != false){
+				if(path != false && typeof path != "undefined"){
 					validPaths.push(path);
 				}
 			}

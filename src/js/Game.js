@@ -1,6 +1,7 @@
 'use strict';
 
 import $ 					from 'jquery';
+import Tock 				from 'tocktimer';
 import Board 				from 'Board';
 import WordPath				from 'WordPath';
 import GameState			from 'GameState';
@@ -11,21 +12,48 @@ class Game {
 		console.log("Game Mounted");
 		this.$game = $(".game");
 		this.$input = $(".search-input");
+		this.running = false;
 		this.words = [];
+		this.totalScore = 0;
+		this.visibleScore = 0;
 		this.$wordheader = $(".words-header"); 
 		this.$searchlabel = $(".search label"); 
 		this.$wordbox = $(".words-box"); 
+		this.$clock = $(".clock");
 		this.board = new Board();
 		this.state = new GameState();
 		this.initX = null;
 		this.initY = null;
+		this.timer = new Tock({
+			countdown: true,
+			interval: 10,
+			callback: this.timerCallback.bind(this),
+			complete: this.timerCompleted.bind(this)
+		});
 		$(window).on("keydown", this.handleKey.bind(this));
+	}
+	timerCallback(){
+		this.$clock.html(this.timer.msToTime(this.timer.lap()));
+	}
+	timerCompleted(){
+		this.running = false;
+		this.scoreGame();
 	}
 	handleKey(event){
 		//enter keycode is 13
-		if(event.keyCode == 13){
-			this.handleSubmit();			
+		if(event.keyCode == 13 && this.running){
+			this.handleSubmit();		
 		}
+	}
+	startNewGame(){
+		this.running = true;
+		this.$searchlabel.html("TYPE FOUND WORD HERE, PRESS ENTER").removeClass("success error");
+		this.$wordbox.removeClass("scored");
+		this.state.createGameState();
+		this.words = [];
+		$(".word-tag").remove();
+		this.timer.start('00:10');
+		this.createGameBoard();
 	}
 	createGameBoard(){
 		var _this = this;
@@ -96,6 +124,14 @@ class Game {
 				w.html(value);
 				w.appendTo(this.$wordbox);
 
+				this.scoreWord(value).done(function(data){
+					if(data.total > 0){
+						w.addClass("correct");
+					} else {
+						w.addClass("incorrect");
+					}
+				}.bind(this));
+
 				//turn off the highlighted boxes after 1.5s
 				setTimeout(function(){
 					$(".game-box").removeClass("active");
@@ -138,12 +174,25 @@ class Game {
 			$(".doge-message").html(msg);
 		}
 	}
-
-	startNewGame(){
-
+	scoreWord(word){
+		return $.getJSON("http://api.pearson.com/v2/dictionaries/lasde/entries", {search: word});
 	}
 	scoreGame(){
+		var score = 0;
+		this.$wordbox.addClass("scored");
+		var correct = $(".word-tag.correct");
+		var incorrect = $(".word-tag.incorrect");
 
+		correct.each(function(){
+			score+= $(this).html().length;
+		});
+		this.$game.empty();
+		this.$game.append("<h2><span>"+score+"</span> Score</h2>");
+		this.$game.append("<h2><span>"+correct.length+"</span> Correct</h2>");
+		this.$game.append("<h2><span>"+incorrect.length+"</span> Incorrect</h2>");	
+		var again = $("<button>PLAY AGAIN</button>");
+		again.click(this.startNewGame.bind(this));
+		again.appendTo(this.$game);	
 	}
 }	
 

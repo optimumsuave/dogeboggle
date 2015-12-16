@@ -6,7 +6,6 @@ import Constants			from 'Constants';
 class GameState {
 	constructor(name) {
 		console.log("GameState Mounted");
-		this.state = this.createGameState();
 	}
 	getState(){
 		return this.state;
@@ -37,17 +36,15 @@ class GameState {
 	getStateOfBox(x,y){
 		//return the box
 		return this.getBox(x, y);
-		//if off the board return 0 for nothing
 	}
 	getStateSurrounding(x, y){
-		//based on the current location, iterate around and return other list of
+		//based on the current location, iterate around and return list of surrounding boxes
 		return [
 			[this.getStateOfBox(x-1,y-1), this.getStateOfBox(x,y-1), this.getStateOfBox(x+1,y-1)],
 			[this.getStateOfBox(x-1,y), 0, this.getStateOfBox(x+1,y)],
 			[this.getStateOfBox(x-1,y+1), this.getStateOfBox(x,y+1), this.getStateOfBox(x+1,y+1)],
 		];
 	}
-	
 	getRandomCharacter(){
 		//generate random 0-25 character
 		var num = Math.floor(Math.random()*26);

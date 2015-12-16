@@ -4,7 +4,7 @@ import $ 				from 'jquery/dist/jquery';
 import Game 			from 'Game';
 
 $(document).ready(function(){
-	let game = new Game();
-	game.createGameBoard();
+	var game = new Game();
+	game.startNewGame();
 	console.log("Mounted");
 });

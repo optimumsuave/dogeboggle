@@ -6,6 +6,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 
 @import url(http://fonts.googleapis.com/css?family=Montserrat:400,600);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,600);
 
 body {
 	background: #ddd;
@@ -114,7 +115,7 @@ h1 {
 		color: #999;
 		position: absolute;
 		right: 10px;
-		top: 45%;
+		top: 48%;
 	}
 	input {
 		margin-top: 5px;
@@ -125,6 +126,9 @@ h1 {
 		width: 100%;
 		outline: 0;
 		background: white;
+		text-transform: uppercase;
+		font-family: 'Roboto';
+		font-weight: 600;
 
 		@include breakpoint(600px) {
 			font-size: 1em;
@@ -135,11 +139,39 @@ h1 {
 .game {
 	width: 100%;
 	clear: both;
+
+	h2 {
+		font-size: 1em;
+		margin-bottom: 10px;
+		text-transform: uppercase;
+		span {
+			display: block;
+			color: #444;
+			font-size: 1.6em;
+		}
+	}
+
+	button {
+		border: 0;
+		background: #444;
+		color: white;
+		border-radius: 6px;
+		padding: 10px;
+		font-family: 'Montserrat';
+
+		&:hover {
+			opacity: 0.9;
+			cursor: pointer;
+		}
+	}
+
 	.game-row {
 		margin-right: -1%;
 		clear: both;
 
 		.game-box {
+			font-family: 'Roboto';
+			font-weight: 600;
 			width: 23%;
 			margin: 0 1%;
 			margin-bottom: 2%;
@@ -177,12 +209,20 @@ h1 {
 		display: block;
 	}
 
+	.clock {
+		font-size: 1.4em;
+		color: #444;
+		margin-bottom: 10px;
+	}
+
 	.words-box {
 		.word-tag {
 			font-size: 0.8em;
 			border-radius: 6px;
 			background: #444;
-			color: white;
+			color: #fff;
+			font-family: 'Roboto';
+			font-weight: 600;
 			float: left;
 			padding: 5px;
 			margin-right: 5px;
@@ -191,6 +231,19 @@ h1 {
 
 			&.exists {
 				background: #00cc00;
+			}
+
+
+		}
+
+		&.scored {
+			.word-tag{
+				&.incorrect {
+					background: #cc0000;
+				}
+				&.correct {
+					background: #00cc00;
+				}
 			}
 		}
 	}
