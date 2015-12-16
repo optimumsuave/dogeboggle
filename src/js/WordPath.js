@@ -35,12 +35,13 @@ class WordPath {
 		}
 	}
 	hasCharacterAdjacent(point, pos, blacklist){
-		console.log("hasCharacterAdjacent", point.x, point.y, point.character, pos);
 		var _this = this;
+
+		//get the surrounding states from this point
 		var surrounding = this.gameState.getStateSurrounding(point.x, point.y);
 		var adjacent = [];
 
-
+		//find if there are any adjacent
 		for(var i=0;i<surrounding.length;i++){
 			var row = surrounding[i];
 			row.forEach(function(r, i){
@@ -50,21 +51,22 @@ class WordPath {
 			});
 		}
 
-
-		console.log("hasCharacterAdjacent", point.character, adjacent.length, blacklist);
-
 		if(adjacent.length){
-
 			//there is an adjacent letter
+
 			var blackListedAdjacent = [];
 			
 			for(var k=0;k<adjacent.length;k++){
 				var a = adjacent[k];
-				console.log("taking the path of adjacent at ", a.x, a.y);
+
+				//find which adjacent are not allowed to travel again through
 				blackListedAdjacent = blacklist.filter(function(b){return (b.x == a.x && b.y == a.y)});
 
-				//word length achieved and no previous letters used
+				console.log("adjacent", a.character, "pos", pos, "blackListedAdjacent", blackListedAdjacent);
+
 				if(this.value.length-1 == pos){
+					//word is done
+					//word length achieved and no previous letters used
 					if(blackListedAdjacent.length == 0){
 						blacklist.push({x: a.x, y: a.y});
 						return blacklist;
@@ -73,19 +75,39 @@ class WordPath {
 					}
 					console.log("the word ended and had adjacent");
 				} else {
+					//word is not finished
+					//continuing to find letters
 					if(blackListedAdjacent.length == 0){
+						console.log("continue to ", a.character);
 						blacklist.push({x: a.x, y: a.y});
-						return this.hasCharacterAdjacent(a, pos+1, blacklist);
+						var check = this.hasCharacterAdjacent(a, pos+1, blacklist);
+						if(check){
+							return blacklist;
+						} else {
+							blacklist.pop();
+							// return false;
+						}
 					} else {
-						return false;
+						// return this.hasCharacterAdjacent(a, pos+1, blacklist);
+						// return false;
+						// var check = this.hasCharacterAdjacent(a, pos+1, blacklist);
+						// if(check){
+							// return blacklist;
+						// } else {
+							// return false;
+						// }
+						// return false;
 					}
 				}
 			}
 		} else {
+			console.log("nothing down this path");
 			return false;
 		}
 	}
 	validate(){
+		console.log("===================");
+		console.log("start validation");
 
 		var validPaths = [];
 		//if there is more than one word on the page you have to validate from its starting point until you pick the right one
@@ -96,6 +118,7 @@ class WordPath {
 			for(var i=0;i<startingPoints.length;i++){
 				var point = startingPoints[i];
 				var path = this.hasCharacterAdjacent(point, 1, [{x: point.x, y: point.y}]);
+				console.log("validate path", i, path);
 				if(path != false){
 					validPaths.push(path);
 				}

@@ -26,20 +26,22 @@ body {
 }
 
 .wrap {
-	margin: 20px auto;
+	margin: 0 auto;
 	max-width: 600px;
-}
-
-.shell {
-	padding: 0 20px;
+	padding: 0 10px;
 }
 
 h1 {
 	font-size: 2em;
 	color: #444;
+	@include breakpoint(600px) {
+		font-size: 1.4em;
+		width: 120px;
+	}
 }
 
 .doge-header {
+	margin-top: 10px;
 	clear: both;
 
 	.doge-message {
@@ -50,6 +52,11 @@ h1 {
 		float: right;
 		background: white;
 		position: relative;
+
+		@include breakpoint(600px) {
+			padding: 10px;
+			font-size: 0.9em;
+		}
 
 		&:after {
 			left: 100%;
@@ -77,6 +84,51 @@ h1 {
 			width: 100%;
 			height: auto;
 		}
+		@include breakpoint(600px) {
+			width: 55px;
+			height: 55px;
+		}
+	}
+}
+
+.search {
+	clear: both;
+	position: relative;
+	padding-right: 20px;
+	margin-top: 20px;
+
+	label {
+		margin-bottom: 5px;
+		font-size: 0.8em;
+		&.success {
+			color: #00cc00;
+		}
+		&.error {
+			color: #cc0000;
+		}
+	}
+	
+	i {
+		display: block;
+		font-size: 1.4em;
+		color: #999;
+		position: absolute;
+		right: 10px;
+		top: 45%;
+	}
+	input {
+		margin-top: 5px;
+		border: 0;
+		border-radius: 6px;
+		font-size: 1.4em;
+		padding: 8px 10px;
+		width: 100%;
+		outline: 0;
+		background: white;
+
+		@include breakpoint(600px) {
+			font-size: 1em;
+		}
 	}
 }
 
@@ -84,10 +136,10 @@ h1 {
 	width: 100%;
 	clear: both;
 	.game-row {
+		margin-right: -1%;
 		clear: both;
 
 		.game-box {
-
 			width: 23%;
 			margin: 0 1%;
 			margin-bottom: 2%;
@@ -109,6 +161,11 @@ h1 {
 				background: #00cc00;
 				color: white;
 			}
+
+			@include breakpoint(600px) {
+				font-size: 1.2em;
+				line-height: 40px;
+			}
 		}
 	}
 }
@@ -119,43 +176,18 @@ h1 {
 		margin-bottom: 5px;
 		display: block;
 	}
-	.words-header {
 
-		label {
-			&.success {
-				color: #00cc00;
-			}
-			&.error {
-				color: #cc0000;
-			}
-		}
-		
-		i {
-			display: inline-block;
-			font-size: 1.4em;
-			color: #999;
-		}
-		input {
-			border: 0;
-			border-radius: 6px;
-			font-size: 1.4em;
-			padding: 8px 10px;
-			width: 80%;
-			outline: 0;
-			background: white;
-		}
-	}
 	.words-box {
-		margin-top: 20px;
 		.word-tag {
-			font-size: 0.9em;
-			border-radius: 10px;
+			font-size: 0.8em;
+			border-radius: 6px;
 			background: #444;
 			color: white;
 			float: left;
-			padding: 10px;
-			margin-right: 10px;
-			margin-bottom: 10px;
+			padding: 5px;
+			margin-right: 5px;
+			margin-bottom: 5px;
+			text-transform: uppercase;
 
 			&.exists {
 				background: #00cc00;
@@ -173,12 +205,18 @@ h1 {
 
 	.left {
 		float: left;
-		width: 40%;
-		min-width: 260px;
+		width: 50%;
+		max-width: 260px;
+		@include breakpoint(600px) {
+			width: 40%;
+		}
 	}
 
 	.right {
 		float: right;
-		width: 50%;
+		width: 55%;
+		@include breakpoint(600px) {
+			width: 55%;
+		}
 	}
 }

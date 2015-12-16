@@ -10,10 +10,10 @@ class Game {
 	constructor(name) {
 		console.log("Game Mounted");
 		this.$game = $(".game");
-		this.$input = $(".words-input");
+		this.$input = $(".search-input");
 		this.words = [];
 		this.$wordheader = $(".words-header"); 
-		this.$wordlabel = $(".words-header label"); 
+		this.$searchlabel = $(".search label"); 
 		this.$wordbox = $(".words-box"); 
 		this.board = new Board();
 		this.state = new GameState();
@@ -70,7 +70,7 @@ class Game {
 	handleSubmit(){
 		//reset the box highlighting
 		$(".game-box").removeClass("active");
-		this.$wordlabel.removeClass("success error");
+		this.$searchlabel.removeClass("success error");
 
 		//get the value and create a wordpath
 		var value = this.$input.val();
@@ -89,7 +89,7 @@ class Game {
 				this.words.push(value.toLowerCase());
 
 				//notify user
-				this.$wordlabel.html("WORD ADDED FROM BOARD").addClass("success");
+				this.$searchlabel.html("WORD ADDED FROM BOARD").addClass("success");
 			
 				//add the word to the box
 				var w = $("<div class='word-tag'></div>");
@@ -103,7 +103,7 @@ class Game {
 
 			} else {
 				//notify user it already exists
-				this.$wordlabel.html("WORD ALREADY ADDED").addClass("error");
+				this.$searchlabel.html("WORD ALREADY ADDED").addClass("error");
 
 				//flash the user the word
 				$(".word-tag").eq(exists).addClass("exists");
@@ -122,7 +122,7 @@ class Game {
 		} else {
 
 			//No word path found on board
-			this.$wordlabel.html("NO WORD FOUND ON BOARD").addClass("error");
+			this.$searchlabel.html("NO WORD FOUND ON BOARD").addClass("error");
 			this.changeDogeMessage(false);
 		}
 		this.$input.val("");
@@ -130,11 +130,11 @@ class Game {
 	changeDogeMessage(positiveFeedback){
 		if(positiveFeedback){
 			var c = Math.floor(Math.random()*Constants.DOGE_MESSAGES_POSITIVE.length);
-			var msg = Constants.DOGE_MESSAGES_POSITIVE[c];
+			var msg = '"'+Constants.DOGE_MESSAGES_POSITIVE[c]+'"';
 			$(".doge-message").html(msg);
 		} else {
 			var c = Math.floor(Math.random()*Constants.DOGE_MESSAGES_NEGATIVE.length);
-			var msg = Constants.DOGE_MESSAGES_NEGATIVE[c];
+			var msg = '"'+Constants.DOGE_MESSAGES_NEGATIVE[c]+'"';
 			$(".doge-message").html(msg);
 		}
 	}
