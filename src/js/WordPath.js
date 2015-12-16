@@ -53,7 +53,6 @@ class WordPath {
 
 		if(adjacent.length){
 			//there is an adjacent letter
-
 			var blackListedAdjacent = [];
 			
 			for(var k=0;k<adjacent.length;k++){
@@ -61,8 +60,6 @@ class WordPath {
 
 				//find which adjacent are not allowed to travel again through
 				blackListedAdjacent = blacklist.filter(function(b){return (b.x == a.x && b.y == a.y)});
-
-				console.log("adjacent", a.character, "pos", pos, "blackListedAdjacent", blackListedAdjacent);
 
 				if(this.value.length == pos){
 					//word is done
@@ -73,12 +70,10 @@ class WordPath {
 					} else {
 						return false;
 					}
-					console.log("the word ended and had adjacent");
 				} else {
 					//word is not finished
 					//continuing to find letters
 					if(blackListedAdjacent.length == 0){
-						console.log("continue to ", a.character);
 						blacklist.push({x: a.x, y: a.y});
 						var check = this.hasCharacterAdjacent(a, pos+1, blacklist);
 						if(check){
@@ -89,28 +84,14 @@ class WordPath {
 								return false;
 							}
 						}
-					} else {
-						console.log("there are repeats in the same area", blackListedAdjacent);
-						// return false;
-						// var check = this.hasCharacterAdjacent(a, pos+1, blacklist);
-						// if(check){
-							// return blacklist;
-						// } else {
-							// return false;
-						// }
-						// return false;
 					}
 				}
 			}
 		} else {
-			console.log("nothing down this path");
 			return false;
 		}
 	}
 	validate(){
-		console.log("===================");
-		console.log("start validation");
-
 		var validPaths = [];
 		//if there is more than one word on the page you have to validate from its starting point until you pick the right one
 		var startingPoints = this.getStartingPoints();
@@ -120,19 +101,17 @@ class WordPath {
 			for(var i=0;i<startingPoints.length;i++){
 				var point = startingPoints[i];
 				var path = this.hasCharacterAdjacent(point, 1, [{x: point.x, y: point.y}]);
-				console.log("validate path", i, path);
 				if(path != false && typeof path != "undefined"){
 					validPaths.push(path);
 				}
 			}
 
 			if(validPaths.length){
-				//light up first valid path
+				//highlight up first valid path with green active classes
 				validPaths[0].forEach(function(b){
 					$(".game-row").eq(b.y).find(".game-box").eq(b.x).addClass("active");
 				});
 			}
-		
 			return validPaths.length > 0;
 		} else {
 			return false;

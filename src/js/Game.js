@@ -49,10 +49,11 @@ class Game {
 		this.running = true;
 		this.$searchlabel.html("TYPE FOUND WORD HERE, PRESS ENTER").removeClass("success error");
 		this.$wordbox.removeClass("scored");
+		this.$input.val("");
 		this.state.createGameState();
 		this.words = [];
 		$(".word-tag").remove();
-		this.timer.start('00:10');
+		this.timer.start('00:60');
 		this.createGameBoard();
 	}
 	createGameBoard(){
@@ -67,33 +68,33 @@ class Game {
 			for(var j=0;j<4;j++){
 				var box = $(".game-row").eq(j).find(".game-box").eq(i);
 				box.html(this.state.getBox(i, j).character);
-				box.click(this.handleClick.bind(this, i, j));
-				box.on("touchstart", this.handleTouchStart.bind(i, j, this));
-				box.on("touchmove", this.handleTouchMove.bind(i, j, this));
-				box.on("touchend", this.handleTouchEnd.bind(i, j, this));
+
+				// TODO: Create touch capabilities
+
+				// box.click(this.handleClick.bind(this, i, j));
+				// box.on("touchstart", this.handleTouchStart.bind(i, j, this));
+				// box.on("touchmove", this.handleTouchMove.bind(i, j, this));
+				// box.on("touchend", this.handleTouchEnd.bind(i, j, this));
 			}
 		}
 	}
-	handleTouchStart(x, y, event){
-		event.preventDefault();
-		var touch = event.originalEvent.touches[0];
-		this.initX = touch.pageX;
-		this.initY = touch.pageY;
-	}
-	handleTouchMove(x, y, event){
-		var touch = event.originalEvent.touches[0];
-		event.preventDefault();
-		console.log("touchMove", event.originalEvent.touches);
-	}
-	handleTouchEnd(x, y, event){
-		event.preventDefault();
-		console.log("touchEnd", event.originalEvent.touches);
-	}
-	handleClick(x, y){
 
-		// var surrounding = this.getStateSurrounding(x, y);
-		// console.log(surrounding);
-	}
+	// TODO: Create touch capabilities
+
+	// handleTouchStart(x, y, event){
+	// 	event.preventDefault();
+	// 	var touch = event.originalEvent.touches[0];
+	// 	this.initX = touch.pageX;
+	// 	this.initY = touch.pageY;
+	// }
+	// handleTouchMove(x, y, event){
+	// 	var touch = event.originalEvent.touches[0];
+	// 	event.preventDefault();
+	// }
+	// handleTouchEnd(x, y, event){
+	// 	event.preventDefault();
+	// }
+
 
 	handleSubmit(){
 		//reset the box highlighting
@@ -151,19 +152,22 @@ class Game {
 				}, 1500);
 			}
 
-
-
 			//make doge talk
 			this.changeDogeMessage(true);
 		} else {
 
 			//No word path found on board
 			this.$searchlabel.html("NO WORD FOUND ON BOARD").addClass("error");
+
+			//make doge talk
 			this.changeDogeMessage(false);
 		}
+
+		//reset the input to a value of nothing
 		this.$input.val("");
 	}
 	changeDogeMessage(positiveFeedback){
+		//get a random message and update doge
 		if(positiveFeedback){
 			var c = Math.floor(Math.random()*Constants.DOGE_MESSAGES_POSITIVE.length);
 			var msg = '"'+Constants.DOGE_MESSAGES_POSITIVE[c]+'"';
@@ -175,17 +179,23 @@ class Game {
 		}
 	}
 	scoreWord(word){
+		//using the pearson dictionary due to CORS restrictions
 		return $.getJSON("http://api.pearson.com/v2/dictionaries/lasde/entries", {search: word});
 	}
 	scoreGame(){
+		//calculate score from counting up div's with the .correct class on it 
 		var score = 0;
 		this.$wordbox.addClass("scored");
 		var correct = $(".word-tag.correct");
 		var incorrect = $(".word-tag.incorrect");
 
+		//scores are by length of word
 		correct.each(function(){
 			score+= $(this).html().length;
 		});
+
+
+		//remove the game screen and show the score screen
 		this.$game.empty();
 		this.$game.append("<h2><span>"+score+"</span> Score</h2>");
 		this.$game.append("<h2><span>"+correct.length+"</span> Correct</h2>");

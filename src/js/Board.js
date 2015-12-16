@@ -3,7 +3,6 @@
 import $ 				from 'jquery';
 
 class Board {
-
 	constructor(name) {
 		console.log("Board Mounted");
 	}
