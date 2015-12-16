@@ -36,3 +36,5 @@ Scoring is on demand - after each word is submitted it is checked for validity a
 ## Future
 
 Code already has handlers written for capturing touch events - if time permitted, I would have implemented a swipeable interface for selecting words.
+
+Keyboard could cover up the game board on some smaller/older mobile devices. Maybe rearrange/redesign layout to provide better accomodation for these devices.
